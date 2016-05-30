@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <div class="container container-tl container-tp container-pl">
-      <heading></heading>
-      <calendar></calendar>
+      <main id="main">
+        <heading></heading>
+        <calendar></calendar>
+      </main>
     </div>
   </div>
 </template>

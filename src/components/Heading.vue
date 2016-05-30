@@ -29,9 +29,9 @@
   @import "../assets/sass/variables";
   .header {
     padding: 2rem;
-    background-color: #fff;
+    background-color: $color3;
     a {
-      color: $color4;
+      color: $color1;
       text-decoration: none;
     }
     .brand {
