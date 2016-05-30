@@ -1,0 +1,90 @@
+/**
+ * Hand-picked from http://www.pavilion.io/
+ */
+
+@mixin container {
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  @media(min-width: $tablet-portrait-size) {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  &:before {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+$phone-landscape-size: 540px;
+$tablet-portrait-size: 768px;
+$tablet-landscape-size: 991px;
+$desktop-size: 1200px;
+$breakmargin: 20px;
+
+.container,
+.container-full-width,
+.container-pp,
+.container-pl,
+.container-tp,
+.container-tl {
+  @include container;
+}
+
+@media (min-width: $phone-landscape-size) {
+  .container,
+  .container-tl,
+  .container-tp,
+  .container-pl {
+    max-width: $phone-landscape-size - $breakmargin;
+  }
+}
+
+@media (min-width: $tablet-portrait-size) {
+  .container,
+  .container-tl,
+  .container-tp {
+    max-width: $tablet-portrait-size - $breakmargin;
+  }
+}
+
+@media (min-width: $tablet-landscape-size) {
+  .container,
+  .container-tl {
+    max-width: $tablet-landscape-size - $breakmargin;
+  }
+}
+
+@media (min-width: $desktop-size) {
+  .container {
+    max-width: $desktop-size - $breakmargin;
+  }
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}

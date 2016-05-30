@@ -81,5 +81,6 @@ module.exports = {
   },
   vue: {
     loaders: utils.cssLoaders()
-  }
+  },
+  sassLoader: config.module.options.sassLoader
 }
