@@ -13,11 +13,17 @@
 import moment from 'moment'
 import Calendar from './components/Calendar'
 import Heading from './components/Heading'
-
+import TodoService from './services/todoService'
+import localforage from 'localforage'
 export default {
   data () {
     return {
-      Moment: moment
+      Moment: moment,
+      TodoService: TodoService.setStorage(
+        localforage.createInstance({
+          name: 'todos'
+        })
+      )
     }
   },
   components: {

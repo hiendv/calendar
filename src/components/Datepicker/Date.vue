@@ -10,7 +10,7 @@
         <li v-for="row in items" track-by="$index" class="clearfix">
           <a v-for="date in row" href="#date-{{ date.original }}"
           :class="{
-          'active':date.value == item,
+          'active': date.value == item && !date.padded,
           'padded': date.padded
         }" @click.prevent="pick(date)"><span>{{ date.name }}</span></a>
       </li>
@@ -77,14 +77,13 @@
       },
       createItem (item, isPadded) {
         var padded = isPadded || false
-        let obj = {
+        return {
           name: item.date(),
           value: item.date(),
           weekDay: item.day(),
           original: item,
           padded: padded
         }
-        return obj
       }
     }
   }
@@ -105,7 +104,7 @@
           font-size: .8em;
           float: left;
           border-right: 1px solid $color2;
-          border-bottom: 1px solid $color2;
+          border-top: 1px solid $color2;
           span {
             display: inline-block;
             line-height: 2em;
@@ -118,12 +117,16 @@
           &:last-child {
             border-right: none;
           }
-          &:hover {
-            span {
-              color: $color1;
-              background-color: $color3;
-            }
+          &:hover, &.active {
+            background-color: lighten($color4, 15%);
+            color: $color1;
           }
+          &.active {
+            background-color: $color3;
+          }
+        }
+        &:first-child a {
+          border-top: none;
         }
       }
     }
