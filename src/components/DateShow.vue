@@ -1,13 +1,13 @@
 <template>
   <section class="date-show">
-    {{ date }}
+    {{ item }}
   </section>
 </template>
 
 <script>
   export default {
     props: {
-      date: {
+      item: {
         type: Object,
         twoWay: true
       }
