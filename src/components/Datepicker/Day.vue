@@ -43,7 +43,7 @@
     computed: {
       weekDays () {
         let self = this
-        return this.factory.weekdaysShort()
+        return this.factory.daysInAWeek()
         .map((day) => {
           return self.weekDayFactory(day)
         })

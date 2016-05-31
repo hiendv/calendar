@@ -36,7 +36,7 @@
       },
       items () {
         let self = this
-        let list = this.factory.monthsShort()
+        let list = this.factory.monthsInAYear()
         .map((name, index) => {
           return self.monthFactory(name, index)
         })
