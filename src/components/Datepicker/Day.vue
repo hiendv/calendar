@@ -61,7 +61,12 @@
     },
     methods: {
       pick (day) {
-        this.item = this.item.date(day.value).clone()
+        let newDate = this.item.date(day.value).clone()
+        if (day.isPadded()) {
+          this.item = newDate.month(day.month)
+          return
+        }
+        this.item = newDate
       },
       weekDayFactory (val) {
         return {
@@ -76,6 +81,7 @@
           name: val,
           value: val,
           original: original,
+          month: original.month(),
           isPadded () {
             let isPadded = padded || false
             return isPadded
