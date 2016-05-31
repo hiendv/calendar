@@ -1,7 +1,13 @@
 <template>
-  <section class="years date-control">
+  <section class="date-control">
     <ul class="clearfix">
-      <li v-for="year in years" track-by="value"><a href="#year-{{ year.value }}" @click.prevent="setYear(year)" :class="[{'active':year.value == item}]">{{ year.name }}</a></li>
+      <li v-for="item in items" track-by="value">
+        <a
+        href="#"
+        :class="{'active': item.isActive()}"
+        v-text="item.name"
+        @click.prevent="pick(item)"></a>
+      </li>
     </ul>
   </section>
 </template>
@@ -10,8 +16,11 @@
   export default {
     props: {
       item: {
-        type: Number,
+        type: Object,
         twoWay: true
+      },
+      factory: {
+        type: Function
       }
     },
     data () {
@@ -20,27 +29,37 @@
       }
     },
     computed: {
-      years () {
+      year () {
+        return this.item.year()
+      },
+      items () {
         let ysA = []
-        for (let i = this.item; i < this.item + this.limit; i++) {
-          ysA.push({
-            name: i,
-            value: i
-          })
-        }
         let ysB = []
-        for (let i = this.item - this.limit + 1; i < this.item; i++) {
-          ysB.push({
-            name: i,
-            value: i
-          })
+
+        for (let i = this.year; i < this.year + this.limit; i++) {
+          ysA.push(this.yearFactory(i))
         }
+
+        for (let i = this.year - this.limit + 1; i < this.year; i++) {
+          ysB.push(this.yearFactory(i))
+        }
+
         return ysB.concat(ysA)
       }
     },
     methods: {
-      setYear (year) {
-        this.item = year.value
+      pick (year) {
+        this.item = this.item.year(year.value).clone()
+      },
+      yearFactory (val) {
+        let self = this
+        return {
+          name: val,
+          value: val,
+          isActive () {
+            return val === self.item.year()
+          }
+        }
       }
     }
   }

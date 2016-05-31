@@ -1,15 +1,15 @@
 <template>
   <section class="date-index">
-    <year :item.sync="year" :factory="factory"></year>
-    <month :item.sync="month" :factory="factory"></month>
-    <date :item.sync="date" :factory="factory" :target="item"></date>
+    <year :item.sync="item" :factory="factory"></year>
+    <month :item.sync="item" :factory="factory"></month>
+    <!-- <day :item.sync="day" :factory="factory" :date="item"></day> -->
   </section>
 </template>
 
 <script>
   import Year from './Datepicker/Year'
   import Month from './Datepicker/Month'
-  import Date from './Datepicker/Date'
+  import Day from './Datepicker/Day'
   export default {
     props: {
       item: {
@@ -20,25 +20,7 @@
         type: Function
       }
     },
-    watch: {
-      year (val) {
-        this.item = this.factory(this.item.year(val))
-      },
-      month (val) {
-        this.item = this.factory(this.item.month(val))
-      },
-      date (val) {
-        this.item = this.factory(this.item.date(val))
-      }
-    },
-    data () {
-      return {
-        year: this.item.year(),
-        month: this.item.month(),
-        date: this.item.date()
-      }
-    },
-    components: { Year, Month, Date }
+    components: { Year, Month, Day }
   }
 </script>
 

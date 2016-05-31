@@ -18,7 +18,7 @@ import localforage from 'localforage'
 export default {
   data () {
     return {
-      Moment: moment,
+      DateFactory: moment,
       TodoService: TodoService.setStorage(
         localforage.createInstance({
           name: 'todos'

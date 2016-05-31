@@ -1,7 +1,13 @@
 <template>
-  <section class="months date-control">
-    <ul>
-      <li v-for="month in items" track-by="name"><a href="#month-{{ month.value }}" @click.prevent="pick(month)" :class="[{'active':month.value == item}]">{{ month.name }}</a></li>
+  <section class="date-control">
+    <ul class="clearfix">
+      <li v-for="item in items" track-by="value">
+        <a
+        href="#"
+        :class="{'active': item.isActive()}"
+        v-text="item.name"
+        @click.prevent="pick(item)"></a>
+      </li>
     </ul>
   </section>
 </template>
@@ -10,7 +16,7 @@
   export default {
     props: {
       item: {
-        type: Number,
+        type: Object,
         twoWay: true
       },
       factory: {
@@ -25,44 +31,49 @@
       }
     },
     computed: {
+      month () {
+        return this.item.month()
+      },
       items () {
+        let self = this
         let list = this.factory.monthsShort()
-        .map((month, index) => {
-          return {
-            name: month,
-            value: index
-          }
+        .map((name, index) => {
+          return self.monthFactory(name, index)
         })
         .filter((month) => {
-          let diff = Math.abs(this.item - month.value)
-          if (this.item - this.limit < 0) {
-            return diff + (this.item - this.limit) <= this.limit
+          let diff = Math.abs(this.month - month.value)
+
+          // Jan, Feb
+          if (this.month - this.limit < 0) {
+            return diff + (this.month - this.limit) <= this.limit
           }
-          if (this.item + this.limit >= this.total) {
-            return diff - (this.item + this.limit - this.total + 1) <= this.limit
+
+          // Nov, Dec
+          if (this.month + this.limit >= this.total) {
+            return diff - (this.month + this.limit - this.total + 1) <= this.limit
           }
+
+          // Others
           return diff <= this.limit
         })
-        list.unshift({
-          name: '<',
-          value: this.item - this.step
-        })
-        list.push({
-          name: '>',
-          value: this.item + this.step
-        })
+        list.unshift(self.monthFactory('<', this.month - this.step))
+        list.push(self.monthFactory('>', this.month + this.step))
         return list
       }
     },
     methods: {
-      pick (item) {
-        if (item.value < 0) {
-          return false
+      pick (month) {
+        this.item = this.item.month(month.value).clone()
+      },
+      monthFactory (name, val) {
+        let self = this
+        return {
+          name: name,
+          value: val,
+          isActive () {
+            return val === self.item.month()
+          }
         }
-        if (item.value >= this.total) {
-          return false
-        }
-        this.item = item.value
       }
     }
   }
