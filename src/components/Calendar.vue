@@ -43,20 +43,24 @@
   @import "../assets/sass/variables";
   .calendar {
     background-color: $color1;
-    overflow: hidden;
-    .left-panel, .right-panel {
-      padding-bottom: 99999px;
-      margin-bottom: -99999px;
+    @media (min-width: 768px) {
+      overflow: hidden;
+      .left-panel, .right-panel {
+        padding-bottom: 99999px;
+        margin-bottom: -99999px;
+      }
+      .left-panel {
+        float: left;
+        width: 40%;
+      }
+      .right-panel {
+        background-color: $color1;
+        overflow: hidden;
+      }
     }
     .left-panel {
-      float: left;
-      width: 40%;
       color: $color1;
       background-color: $color4;
-    }
-    .right-panel {
-      background-color: $color1;
-      overflow: hidden;
     }
   }
 </style>

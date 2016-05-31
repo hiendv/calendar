@@ -5,11 +5,6 @@
       <nav class="site-nav">
         <ul class="site-nav-list">
           <li class="nav-list-item active"><a class="nav-list-link" href="#">{{ user.name }}</a></li>
-          <li class="nav-list-item">
-            <a href="#" rel="nofollow" class="nav-list-link btn-link">
-              <span class="ion-plus"></span> New
-            </a>
-          </li>
         </ul>
       </nav>
     </div>
