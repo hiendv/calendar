@@ -23,29 +23,36 @@ export default {
   setServices (services) {
     this.services = services
   },
-  prepare (date) {
-    date.todos = this.services.todo.getByDate(date.id)
+  store (id, date) {
+    return new Promise((resolve, reject) => {
+      this.storage.setItem(id, date)
+      .then(resolve, reject)
+    })
   },
   find (id) {
-    let self = this
     return new Promise((resolve, reject) => {
-      self.storage.getItem(id)
+      this.storage.getItem(id)
       .then((date) => {
         if (!date) {
-          return reject({code: 404, message: 'Date not found', data: {id: id}})
+          // return reject({code: 404, message: 'Date not found', data: {id: id}})
+          return this.store(id, {id: id}).then(() => {
+            this.find(id)
+          })
         }
-        date = self.prepare(date)
-        resolve(date)
+        this.services.todo.getByDate(date.id)
+        .then((todos) => {
+          date.todos = todos
+          resolve(date)
+        })
       }, reject)
     })
   },
   show (id) {
-    let self = this
     return new Promise((resolve, reject) => {
       if (!id) {
         return reject({code: 403, message: 'Missing id', data: {id: id}})
       }
-      return self.find(id)
+      return this.find(id)
       .then(resolve, reject)
     })
   }

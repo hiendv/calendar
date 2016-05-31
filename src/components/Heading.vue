@@ -5,7 +5,11 @@
       <nav class="site-nav">
         <ul class="site-nav-list">
           <li class="nav-list-item active"><a class="nav-list-link" href="#">{{ user.name }}</a></li>
-          <li class="nav-list-item"><a href="#" rel="nofollow" class="nav-list-link download-link">Add a note</a></li>
+          <li class="nav-list-item">
+            <a href="#" rel="nofollow" class="nav-list-link btn-link">
+              <span class="ion-plus"></span> New
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -39,6 +43,18 @@
       float: left;
       text-transform: uppercase;
       font-weight: bold;
+    }
+    .btn-link {
+      display: inline-block;
+      padding: .5em 1em;
+      border-radius: 4px;
+      font-size: .8em;
+      background-color: darken($color3, 7%);
+      &:hover {
+        transition: background-color .3s linear;
+        background-color: darken($color3, 15%);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+      }
     }
     .site-nav {
       float: right;

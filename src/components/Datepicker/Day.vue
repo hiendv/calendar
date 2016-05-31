@@ -61,7 +61,7 @@
     },
     methods: {
       pick (day) {
-        let newDate = this.item.date(day.value).clone()
+        let newDate = this.item.clone().date(day.value)
         if (day.isPadded()) {
           this.item = newDate.month(day.month)
           return

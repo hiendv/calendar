@@ -1,7 +1,7 @@
 <template>
   <section class="calendar clearfix">
     <div class="left-panel">
-      <date-show :item="date"></date-show>
+      <date-show :item.sync="date"></date-show>
     </div>
     <div class="right-panel">
       <date-index :item.sync="dateInstance" :factory="MomentFactory"></date-index>

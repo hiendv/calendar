@@ -2,10 +2,12 @@
   <section class="date-show">
   <h3>{{ moment.format("MMMM Do") }}</h3>
   <h2>{{ moment.format("dddd") }}</h2>
+  <todo-index :items.sync="item.todos"></todo-index>
   </section>
 </template>
 
 <script>
+  import TodoIndex from './TodoIndex'
   export default {
     props: {
       item: {
@@ -14,19 +16,17 @@
     },
     computed: {
       moment () {
-        return this.$parent.MomentFactory(this.date)
+        return this.$parent.MomentFactory(this.item.id)
       }
     },
     events: {
-      'date:updated' () {
-        this.show(this.item)
+      'date:updated' (val) {
+        this.show()
       }
     },
     methods: {
-      show (item) {
-        if (!item) {
-          return true
-        }
+      show (date) {
+        var item = date || this.item
         return this.$parent.MomentService.show(item.id)
         .then((date) => {
           this.item = date
@@ -34,7 +34,8 @@
           console.info(error, message, id)
         })
       }
-    }
+    },
+    components: {TodoIndex}
   }
 </script>
 
