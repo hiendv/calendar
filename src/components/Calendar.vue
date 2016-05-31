@@ -1,7 +1,7 @@
 <template>
   <section class="calendar clearfix">
     <div class="left-panel">
-      <date-show :date="date"></date-show>
+      <date-show :item="date"></date-show>
     </div>
     <div class="right-panel">
       <date-index :item.sync="dateInstance" :factory="MomentFactory"></date-index>
@@ -25,7 +25,12 @@
     },
     watch: {
       dateInstance (val) {
-        this.$set('date.id', val.format('YYYY-MM-DD'))
+        let id = val.format('YYYY-MM-DD')
+        if (this.date.id === id) {
+          return
+        }
+        this.$set('date.id', id)
+        this.$broadcast('date:updated', this.date)
       }
     },
     ready () {

@@ -31,25 +31,22 @@ export default {
     return new Promise((resolve, reject) => {
       self.storage.getItem(id)
       .then((date) => {
+        if (!date) {
+          return reject({code: 404, message: 'Date not found', data: {id: id}})
+        }
         date = self.prepare(date)
         resolve(date)
-      }, () => {
-        reject.apply(null, arguments)
-      })
+      }, reject)
     })
   },
   show (id) {
     let self = this
     return new Promise((resolve, reject) => {
       if (!id) {
-        return reject('Missing id', id)
+        return reject({code: 403, message: 'Missing id', data: {id: id}})
       }
       return self.find(id)
-      .then((date) => {
-        resolve(date)
-      }, () => {
-        reject.apply(null, arguments)
-      })
+      .then(resolve, reject)
     })
   }
 }

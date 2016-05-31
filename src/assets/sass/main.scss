@@ -1,8 +1,10 @@
 @import "variables";
 @import "normalize/import-now";
 @import "pavilion";
-
+@import "../../bower/Ionicons/scss/ionicons";
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,400,700&subset=vietnamese);
 body {
+  font-family: 'Roboto', sans-serif;
   background-color: $color2;
 }
 #main {
