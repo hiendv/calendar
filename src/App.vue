@@ -17,7 +17,11 @@ import MomentService from './services/momentService'
 import localforage from 'localforage'
 export default {
   data () {
+    /**
+     * ServiceProvider
+     */
     let todo = TodoService
+    .setVM(this)
     .setStorage(
       localforage.createInstance({
         name: 'todos'
@@ -25,12 +29,12 @@ export default {
     )
 
     let moment = MomentService
+    .setVM(this)
     .setStorage(
       localforage.createInstance({
         name: 'moments'
       })
     )
-    moment.setServices({todo: todo})
     return {
       MomentService: moment,
       TodoService: todo
@@ -39,6 +43,12 @@ export default {
   components: {
     Heading,
     Calendar
+  },
+  events: {
+    'todo:created' () {
+    },
+    'todo:updated' () {
+    }
   }
 }
 </script>

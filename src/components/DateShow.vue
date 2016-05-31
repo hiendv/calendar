@@ -1,10 +1,16 @@
 <template>
   <section class="date-show">
     <div class="heading">
-      <h3>{{ moment.format("MMMM Do") }}</h3>
+      <h3 class="clearfix">{{ moment.format("MMMM Do") }} <a href="#" class="btn" @click.prevent="createTodo()"><span class="ion-plus"></span></a></h3>
       <h2>{{ moment.format("dddd") }}</h2>
     </div>
-    <todo-index :items.sync="item.todos"></todo-index>
+    <todo-index
+    :items.sync="item.todos"
+    :filter.sync="filter"
+    :todo-saver="saveTodo"
+    :todo-destroyer="destroyTodo"
+    :active-todo="activeTodo"
+    ></todo-index>
   </section>
 </template>
 
@@ -16,9 +22,18 @@
         type: Object
       }
     },
+    data () {
+      return {
+        TodoService: this.$parent.TodoService,
+        MomentService: this.$parent.MomentService,
+        MomentFactory: this.$parent.MomentFactory,
+        filter: 'all',
+        activeTodo: {}
+      }
+    },
     computed: {
       moment () {
-        return this.$parent.MomentFactory(this.item.id)
+        return this.MomentFactory(this.item.id)
       }
     },
     watch: {
@@ -29,12 +44,48 @@
     methods: {
       show (date) {
         var item = date || this.item
-        return this.$parent.MomentService.show(item.id)
-        .then((date) => {
-          this.item = date
-        }, (error, message, id) => {
-          console.info(error, message, id)
-        })
+        this.MomentService.find(item.id)
+        .then(
+          (date) => { this.item = date },
+          (error, message, id) => console.info(error, message, id)
+        )
+      },
+      createTodo () {
+        if (this.filter === 'completed') {
+          this.filter = 'all'
+        }
+        let item = {
+          date: this.item
+        }
+        this.TodoService.store(item)
+        .then(
+          (item) => {
+            this.activeTodo = item
+            this.item.todos.push(item)
+          },
+          (error, message, id) => console.info(error, message, id)
+        )
+      },
+      saveTodo (item) {
+        this.TodoService.update(item.id, item)
+        .then(
+          (i) => { item = i },
+          (error, message, id) => console.info(error, message, id)
+        )
+      },
+      destroyTodo (item) {
+        this.TodoService.destroy(item.id)
+        .then(
+          (itemDeleted) => {
+            var self = this
+            this.item.todos.forEach((todo) => {
+              if (todo.id === itemDeleted.id) {
+                self.item.todos.$remove(todo)
+              }
+            })
+          },
+          (error, message, id) => console.info(error, message, id)
+        )
       }
     },
     components: {TodoIndex}
@@ -46,7 +97,7 @@
   .date-show {
     padding: 1em;
     .heading {
-      margin: 1em 0;
+      margin: 0 0 1em 0;
     }
     h2, h3 {
       margin: 0;
@@ -59,6 +110,18 @@
     }
     h3 {
       font-weight: normal;
+      line-height: 1.2em;
+      .btn {
+        display: inline-block;
+        padding: .3em 1em;
+        line-height: 1rem;
+        font-size: .7em;
+        float: right;
+        color: $color1;
+        text-decoration: none;
+        background: lighten($color3, 10%);
+        border-radius: 4px;
+      }
     }
   }
 </style>

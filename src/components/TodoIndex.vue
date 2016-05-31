@@ -1,17 +1,26 @@
 <template>
   <section class="todos">
-    <ul>
-      <li class="todo" v-for="todo in filtered">
-        <input id="{{ todo.id }}" type="checkbox" v-model="todo.completed" track-by="id">
-        <div class="prepend">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path v-show="todo.completed" transition="expand" d="M 10 10 L 90 90"></path>
-            <path v-show="todo.completed" transition="expand" d="M 90 10 L 10 90"></path>
-          </svg>
+    <div class="filters">
+      <a href="#" :class="{active: $key == filter}" @click.prevent="filtering($key)" v-for="f in filters" track-by="$index">{{ $key }}</a>
+    </div>
+    <ul v-el:todo-list>
+      <li class="todo" v-for="todo in filtered | orderBy 'created_at' 'desc'" track-by="id">
+        <div class="todo-detail">
+          <input id="{{ todo.id }}" type="checkbox" v-model="todo.completed" @click="todoSaver(todo)">
+          <div class="prepend">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <path v-show="todo.completed" transition="expand" d="M 10 10 L 90 90"></path>
+              <path v-show="todo.completed" transition="expand" d="M 90 10 L 10 90"></path>
+            </svg>
+          </div>
+          <input type="text" v-model="todo.content" @keyup="todoSaver(todo) | debounce 400" v-todo-focus="todo == activeTodo">
+          <div class="append">
+            <button type="button" class="btn" @click.prevent="todoDestroyer(todo)"><span class="ion-trash-a"></span></button>
+          </div>
         </div>
-        <input type="text" v-model="todo.content" />
-        <div class="append">
-          <button class="btn"><span class="ion-trash-a"></span></button>
+        <div class="todo-timestamp clearfix">
+          <strong>{{ MomentFactory(todo.created_at).format('HH:mm') }}</strong>
+          <span>- {{ MomentFactory(todo.created_at).fromNow() }}</span>
         </div>
       </li>
     </ul>
@@ -22,8 +31,7 @@
   export default {
     data () {
       return {
-        TodoService: this.$parent.TodoService,
-        filter: 'all',
+        MomentFactory: this.$parent.MomentFactory,
         filters: {
           all (items) {
             return items
@@ -45,11 +53,40 @@
       items: {
         type: Array,
         twoWay: true
+      },
+      filter: {
+        type: String,
+        twoWay: true
+      },
+      todoSaver: {
+        type: Function
+      },
+      todoDestroyer: {
+        type: Function
+      },
+      activeTodo: {
+        type: Object
       }
     },
     computed: {
       filtered () {
         return this.filters[this.filter](this.items)
+      }
+    },
+    methods: {
+      filtering (key) {
+        this.filter = key
+      }
+    },
+    directives: {
+      'todo-focus': function (value) {
+        if (!value) {
+          return
+        }
+        var el = this.el
+        this.vm.$nextTick(function () {
+          el.focus()
+        })
       }
     }
   }
@@ -58,17 +95,41 @@
 <style lang="scss" scoped>
   @import "../assets/sass/variables";
   ul {
+    display: block;
+    position: relative;
     margin: 0;
     padding: 0;
     list-style: none;
   }
+  .filters {
+    padding: .5em 0;
+    font-size: 13px;
+    text-align: center;
+    background-color: darken($color4, 5%);
+    a {
+      display: inline-block;
+      padding: 0 1em;
+      color: $color1;
+      text-transform: capitalize;
+      text-decoration: none;
+      &.active {
+        text-decoration: underline;
+        font-weight: bold;
+      }
+    }
+  }
   .todo {
+    padding: 1em 0;
+    border-bottom: 1px dashed darken($color4, 10%);
+  }
+  .todo-timestamp {
+    font-size: .8em;
+  }
+  .todo-detail {
     position: relative;
     width: 100%;
     display: table;
     border-collapse: separate;
-    padding: 1em 0;
-    border-bottom: 1px dashed darken($color4, 10%);
     .prepend, .append {
       width: 1%;
       white-space: nowrap;

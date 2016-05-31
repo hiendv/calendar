@@ -18,7 +18,9 @@ module.exports = {
   module: {
     options: {
       sassLoader: {
-        includePaths: [path.resolve(__dirname, "../node_modules/normalize-scss/sass")]
+        includePaths: [
+          path.resolve(__dirname, "../node_modules/normalize-scss/sass")
+        ]
       }
     }
   }
