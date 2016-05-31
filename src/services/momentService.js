@@ -37,6 +37,7 @@ export default {
           // return reject({code: 404, message: 'Date not found', data: {id: id}})
           return this.store(id, {id: id}).then(() => {
             this.find(id)
+            .then(resolve, reject)
           })
         }
         this.services.todo.getByDate(date.id)

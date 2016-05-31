@@ -8,7 +8,7 @@ export default {
       completed: random.boolean()
     }
   },
-  _seed () {
+  seed () {
     let list = []
     let quantity = random.number({
       max: 5
@@ -27,10 +27,6 @@ export default {
     return new Promise((resolve, reject) => {
       self.storage.getItem('date:' + date)
       .then((list) => {
-        if (!list) {
-          let fakeList = self._seed()
-          self.storage.setItem('date:' + date, fakeList).then(resolve)
-        }
         resolve(list)
       }, reject)
     })

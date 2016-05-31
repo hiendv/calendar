@@ -1,8 +1,10 @@
 <template>
   <section class="date-show">
-  <h3>{{ moment.format("MMMM Do") }}</h3>
-  <h2>{{ moment.format("dddd") }}</h2>
-  <todo-index :items.sync="item.todos"></todo-index>
+    <div class="heading">
+      <h3>{{ moment.format("MMMM Do") }}</h3>
+      <h2>{{ moment.format("dddd") }}</h2>
+    </div>
+    <todo-index :items.sync="item.todos"></todo-index>
   </section>
 </template>
 
@@ -19,8 +21,8 @@
         return this.$parent.MomentFactory(this.item.id)
       }
     },
-    events: {
-      'date:updated' (val) {
+    watch: {
+      'item.id' (val) {
         this.show()
       }
     },
@@ -43,6 +45,9 @@
   @import "../assets/sass/variables";
   .date-show {
     padding: 1em;
+    .heading {
+      margin: 1em 0;
+    }
     h2, h3 {
       margin: 0;
       padding: 0;

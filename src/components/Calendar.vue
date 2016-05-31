@@ -30,7 +30,6 @@
           return
         }
         this.$set('date.id', id)
-        this.$broadcast('date:updated', this.date)
       }
     },
     ready () {
