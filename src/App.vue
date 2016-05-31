@@ -10,15 +10,15 @@
 </template>
 
 <script>
-import moment from 'moment'
 import Calendar from './components/Calendar'
 import Heading from './components/Heading'
 import TodoService from './services/todoService'
+import MomentService from './services/momentService'
 import localforage from 'localforage'
 export default {
   data () {
     return {
-      DateFactory: moment,
+      MomentService: MomentService.getInstance(),
       TodoService: TodoService.setStorage(
         localforage.createInstance({
           name: 'todos'

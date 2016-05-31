@@ -18,7 +18,7 @@
         date: {
           id: '2016-04-27'
         },
-        factory: this.$parent.DateFactory
+        factory: this.$parent.MomentService
       }
     },
     computed: {

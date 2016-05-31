@@ -2,7 +2,7 @@
   <section class="date-index">
     <year :item.sync="item" :factory="factory"></year>
     <month :item.sync="item" :factory="factory"></month>
-    <!-- <day :item.sync="day" :factory="factory" :date="item"></day> -->
+    <day :item.sync="item" :factory="factory"></day>
   </section>
 </template>
 
@@ -35,9 +35,7 @@
         color: $color4;
       }
     }
-  }
-  .date-control {
-    ul {
+    .date-control & {
       margin: 0;
       padding: .5em;
       list-style: none;
