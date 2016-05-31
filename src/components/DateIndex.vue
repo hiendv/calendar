@@ -1,5 +1,5 @@
 <template>
-  <section class="date-index">
+  <section class="date-index" v-if="item">
     <year :item.sync="item" :factory="factory"></year>
     <month :item.sync="item" :factory="factory"></month>
     <day :item.sync="item" :factory="factory"></day>

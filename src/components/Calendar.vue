@@ -1,10 +1,10 @@
 <template>
   <section class="calendar clearfix">
     <div class="left-panel">
-      <date-show :date.sync="dateInstance"></date-show>
+      <date-show :date="date"></date-show>
     </div>
     <div class="right-panel">
-      <date-index :item.sync="dateInstance" :factory="factory"></date-index>
+      <date-index :item.sync="dateInstance" :factory="MomentFactory"></date-index>
     </div>
   </section>
 </template>
@@ -14,22 +14,22 @@
   import DateIndex from './DateIndex'
   export default {
     data () {
+      let MomentService = this.$parent.MomentService
       return {
-        date: {
-          id: '2016-04-27'
-        },
-        factory: this.$parent.MomentService
+        date: {},
+        dateInstance: null,
+        TodoService: this.$parent.TodoService,
+        MomentService: MomentService,
+        MomentFactory: MomentService.getFactory()
       }
     },
-    computed: {
-      dateInstance: {
-        get () {
-          return this.factory(this.date.id)
-        },
-        set (val) {
-          this.date.id = val.format('YYYY-MM-DD')
-        }
+    watch: {
+      dateInstance (val) {
+        this.$set('date.id', val.format('YYYY-MM-DD'))
       }
+    },
+    ready () {
+      this.dateInstance = this.MomentFactory()
     },
     components: { DateShow, DateIndex }
   }

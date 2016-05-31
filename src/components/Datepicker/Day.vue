@@ -87,10 +87,10 @@
             return isPadded
           },
           isActive () {
-            return !this.padded && this._id() === self.item.format()
+            return !this.padded && this._id() === self.item.format('YYYY-MM-DD')
           },
           _id () {
-            return original.format()
+            return original.format('YYYY-MM-DD')
           }
         }
       },
@@ -102,13 +102,13 @@
         let isAppended = appended || false
         if (isAppended) {
           while (list[list.length - 1].original.day() < 6) {
-            nextDay = list[list.length - 1].original.add(1, 'day')
+            nextDay = list[list.length - 1].original.clone().add(1, 'day')
             list.push(this.dayFactory(nextDay, true))
           }
           return list
         }
         while (list[0].original.day() > 0) {
-          nextDay = list[0].original.subtract(1, 'day')
+          nextDay = list[0].original.clone().subtract(1, 'day')
           list.unshift(this.dayFactory(nextDay, true))
         }
         return list

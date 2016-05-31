@@ -17,13 +17,23 @@ import MomentService from './services/momentService'
 import localforage from 'localforage'
 export default {
   data () {
+    let todo = TodoService
+    .setStorage(
+      localforage.createInstance({
+        name: 'todos'
+      })
+    )
+
+    let moment = MomentService
+    .setStorage(
+      localforage.createInstance({
+        name: 'moments'
+      })
+    )
+    moment.setServices({todo: todo})
     return {
-      MomentService: MomentService.getInstance(),
-      TodoService: TodoService.setStorage(
-        localforage.createInstance({
-          name: 'todos'
-        })
-      )
+      MomentService: moment,
+      TodoService: todo
     }
   },
   components: {
