@@ -1,7 +1,7 @@
 <template>
   <section class="date-control">
     <ul class="clearfix">
-      <li v-for="item in items" track-by="value">
+      <li v-for="item in items" track-by="_id()">
         <a
         href="#"
         :class="{'active': item.isActive()}"
@@ -72,6 +72,11 @@
           value: val,
           isActive () {
             return val === self.item.month()
+          },
+          _id () {
+            // A dirty hack which acts as an identifier
+            // `value` is not unique
+            return this.name + this.value
           }
         }
       }
