@@ -19,7 +19,8 @@
           :class="{'active': item.isActive(), 'padded': item.isPadded()}"
           @click.prevent="pick(item)"
           >
-            <span v-text="item.name"></span>
+            <h4 v-text="item.name"></h4>
+            <span v-todo-counter="item" class="todo-counter"></span>
           </a>
       </li>
     </ul>
@@ -114,11 +115,32 @@
         }
         return list
       }
+    },
+    directives: {
+      todoCounter (value) {
+        let self = this
+        this.vm.$parent.MomentService.count(value._id()).then((count) => {
+          if (!this.el) {
+            return
+          }
+          if (!count || !count.all) {
+            return
+          }
+          let innerHTML = ''
+          if (count.remaining) {
+            innerHTML += '<span class="icon ion-ios-circle-filled"></span> '
+          }
+          if (count.completed) {
+            innerHTML += '<span class="icon ion-ios-checkmark"></span>'
+          }
+          self.el.innerHTML = innerHTML
+        }, (e) => {})
+      }
     }
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../assets/sass/variables";
   .month-days {
     ul {
@@ -130,13 +152,16 @@
           display: block;
           width: calc(100%/7);
           padding: 1em;
-          font-size: .8em;
+          font-size: .9em;
           float: left;
           border-right: 1px solid $color2;
           border-top: 1px solid $color2;
-          span {
+          h4 {
+            margin: 0;
+            width: 100%;
             display: inline-block;
             line-height: 2em;
+            font-weight: normal;
             width: 2em;
             border-radius: 50%;
           }
@@ -149,9 +174,29 @@
           &:hover, &.active {
             background-color: lighten($color4, 15%);
             color: $color1;
+            .icon {
+              color: $color1!important;
+            }
           }
           &.active {
             background-color: $color3;
+            .icon {
+              color: $color1!important;
+            }
+          }
+          .todo-counter {
+            display: block;
+            height: 1em;
+            .icon {
+              display: inline-block;
+              font-size: 1.2em;
+              &.ion-ios-circle-filled {
+                color: #f85627;
+              }
+              &.ion-ios-checkmark {
+                color: $color3;
+              }
+            }
           }
         }
         &:first-child a {
