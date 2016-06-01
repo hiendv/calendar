@@ -91,7 +91,7 @@
           },
           _id () {
             return original.format('YYYY-MM-DD')
-          }
+          },
         }
         return day
       },
@@ -114,13 +114,6 @@
         }
         return list
       }
-    },
-    ready () {
-      this.items.map((row) => {
-        row.map((item) => {
-          item.x = 'y'
-        })
-      })
     }
   }
 </script>
