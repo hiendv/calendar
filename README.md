@@ -1,7 +1,7 @@
-# calendar
+# Personal Calendar
 
-A personal calendar which allow people to browse dates, create, modify and filter to-do lists. The prototype is a part of my final project in HCI course.
-Built with [Vue.js](https://github.com/vuejs/vue/), [localForage](https://github.com/mozilla/localForage), [Moment](https://github.com/moment/moment) & coffee
+A personal calendar which allow people to browse dates, create, modify and filter to-do lists. This is a part of my final project in HCI course.  
+Built with [Vue.js](https://github.com/vuejs/vue/), [localForage](https://github.com/mozilla/localForage), [Moment](https://github.com/moment/moment) & coffee  
 ![Personal Calendar](https://github.com/hiendv/trash/blob/master/calendar/demo.png)
 ## Build Setup
 
