@@ -80,18 +80,20 @@
         )
       },
       destroyTodo (item) {
-        this.TodoService.destroy(item.id)
-        .then(
-          (itemDeleted) => {
-            var self = this
-            this.item.todos.forEach((todo) => {
-              if (todo.id === itemDeleted.id) {
-                self.item.todos.$remove(todo)
-              }
-            })
-          },
-          (error) => console.info(error)
-        )
+        this.$dispatch('todo:deleting', item, () => {
+          this.TodoService.destroy(item.id)
+          .then(
+            (itemDeleted) => {
+              var self = this
+              this.item.todos.forEach((todo) => {
+                if (todo.id === itemDeleted.id) {
+                  self.item.todos.$remove(todo)
+                }
+              })
+            },
+            (error) => console.info(error)
+          )
+        }, () => {})
       }
     },
     components: {TodoIndex}

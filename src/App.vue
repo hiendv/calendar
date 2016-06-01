@@ -51,6 +51,12 @@ export default {
     },
     'todo:updated' () {
       alertify.success('Your note has been updated !')
+    },
+    'todo:deleted' () {
+      alertify.error('Your note has been deleted !')
+    },
+    'todo:deleting' (item, resolve, reject) {
+      alertify.confirm('Are you sure?', resolve, reject)
     }
   }
 }
