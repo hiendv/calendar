@@ -61,6 +61,9 @@ export default {
   _loadRelations (item, resolve) {
     this.vm.TodoService.findByDate(item)
     .then((todos) => {
+      if (!todos) {
+        todos = []
+      }
       item.todos = todos
       resolve(item)
     })

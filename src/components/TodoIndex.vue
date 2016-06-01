@@ -29,6 +29,26 @@
 
 <script>
   export default {
+    props: {
+      items: {
+        type: Array,
+        twoWay: true,
+        default () { return [] }
+      },
+      filter: {
+        type: String,
+        twoWay: true
+      },
+      todoSaver: {
+        type: Function
+      },
+      todoDestroyer: {
+        type: Function
+      },
+      activeTodo: {
+        type: Object
+      }
+    },
     data () {
       return {
         MomentFactory: this.$parent.MomentFactory,
@@ -47,25 +67,6 @@
             })
           }
         }
-      }
-    },
-    props: {
-      items: {
-        type: Array,
-        twoWay: true
-      },
-      filter: {
-        type: String,
-        twoWay: true
-      },
-      todoSaver: {
-        type: Function
-      },
-      todoDestroyer: {
-        type: Function
-      },
-      activeTodo: {
-        type: Object
       }
     },
     computed: {

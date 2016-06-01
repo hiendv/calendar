@@ -46,8 +46,14 @@
         var item = date || this.item
         this.MomentService.find(item.id)
         .then(
-          (date) => { this.item = date },
-          (error, message, id) => console.info(error, message, id)
+          (item) => { this.item = item },
+          (error) => {
+            if (error.code === 404) {
+              this.MomentService.store({id: item.id}).then((item) => {
+                this.show()
+              })
+            }
+          }
         )
       },
       createTodo () {
@@ -63,14 +69,14 @@
             this.activeTodo = item
             this.item.todos.push(item)
           },
-          (error, message, id) => console.info(error, message, id)
+          (error) => console.info(error)
         )
       },
       saveTodo (item) {
         this.TodoService.update(item.id, item)
         .then(
           (i) => { item = i },
-          (error, message, id) => console.info(error, message, id)
+          (error) => console.info(error)
         )
       },
       destroyTodo (item) {
@@ -84,7 +90,7 @@
               }
             })
           },
-          (error, message, id) => console.info(error, message, id)
+          (error) => console.info(error)
         )
       }
     },
