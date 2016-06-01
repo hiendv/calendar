@@ -91,7 +91,7 @@
           },
           _id () {
             return original.format('YYYY-MM-DD')
-          },
+          }
         }
         return day
       },
