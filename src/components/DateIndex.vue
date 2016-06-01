@@ -20,6 +20,11 @@
         type: Function
       }
     },
+    data () {
+      return {
+        MomentService: this.$parent.MomentService
+      }
+    },
     components: { Year, Month, Day }
   }
 </script>

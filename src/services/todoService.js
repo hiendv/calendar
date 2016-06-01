@@ -32,7 +32,7 @@ export default {
     item.created_at = new Date()
     return new Promise((resolve, reject) =>
       this.storage.setItem(item.id, item).then((item) => {
-        this.vm.$emit('todo:created')
+        this.vm.$emit('todo:created', item)
         resolve(item)
       }, (item) => {
         reject(item)
@@ -44,7 +44,7 @@ export default {
     return new Promise((resolve, reject) =>
       this.find(id)
       .then((i) => this.storage.setItem(i.id, item).then((item) => {
-        this.vm.$emit('todo:updated')
+        this.vm.$emit('todo:updated', item)
         resolve(item)
       }, (item) => {
         reject(item)

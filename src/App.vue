@@ -15,6 +15,7 @@ import Heading from './components/Heading'
 import TodoService from './services/todoService'
 import MomentService from './services/momentService'
 import localforage from 'localforage'
+import alertify from 'alertify.js'
 export default {
   data () {
     /**
@@ -45,9 +46,11 @@ export default {
     Calendar
   },
   events: {
-    'todo:created' () {
+    'todo:created' (item) {
+      alertify.success('Your note has been created !')
     },
     'todo:updated' () {
+      alertify.success('Your note has been updated !')
     }
   }
 }

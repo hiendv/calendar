@@ -49,7 +49,7 @@
         })
       },
       items () {
-        var self = this
+        let self = this
         let list = this.item.range('month').toArray('days')
         .map((item) => {
           return self.dayFactory(item, false)
@@ -77,7 +77,7 @@
       dayFactory (original, padded) {
         let self = this
         let val = original.date()
-        return {
+        let day = {
           name: val,
           value: val,
           original: original,
@@ -93,6 +93,7 @@
             return original.format('YYYY-MM-DD')
           }
         }
+        return day
       },
       dayPadding (list, appended) {
         var nextDay
@@ -113,6 +114,13 @@
         }
         return list
       }
+    },
+    ready () {
+      this.items.map((row) => {
+        row.map((item) => {
+          item.x = 'y'
+        })
+      })
     }
   }
 </script>

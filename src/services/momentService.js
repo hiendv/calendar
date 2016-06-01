@@ -25,6 +25,19 @@ export default {
     this.storage = storage
     return this
   },
+  count (id) {
+    return new Promise((resolve, reject) => {
+      this.find(id).then((item) => {
+        var all = item.todos.length
+        var remaining = item.todos.filter((todo) => { return !todo.completed }).length
+        resolve({
+          all: all,
+          remaining: remaining,
+          completed: all - remaining
+        })
+      }, reject)
+    })
+  },
   find (id) {
     return new Promise((resolve, reject) => {
       if (!id) {
